@@ -4,6 +4,7 @@ import java.util.Collections;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,6 +40,7 @@ as a result, simplifies the controller implementation:
 @RestController
 @SpringBootApplication
 @EnableSwagger2
+@EnableDiscoveryClient
 public class InitiatorApiApplication {
 
 	public static void main(String[] args) {

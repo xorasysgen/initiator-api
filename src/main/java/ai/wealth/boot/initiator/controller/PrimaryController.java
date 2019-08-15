@@ -23,8 +23,8 @@ public class PrimaryController {
 	
 	
 	@ResponseBody
-	@ApiOperation(value = "say hi", notes="no addition parameters required", response=String.class)
-	@GetMapping("{name}")
+	@ApiOperation(value = "say hi", notes="addition parameters required", response=String.class)
+	@GetMapping("/{name}")
 	public String hi(@PathVariable("name") String name)  {
 		return "Hello " +  name;
 	}

@@ -1,12 +1,11 @@
 package ai.wealth.boot.initiator;
 
-import java.util.Collections;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import ai.wealth.boot.initiator.model.ServerStatus;
 /**************************************************************************
 @SpringBootApplication = @Configuration + @ComponentScan + @EnableAutoConfiguration
 @Configuration to enable Java-based configuration. 
@@ -14,16 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @EnableAutoConfiguration to enable Spring Boot's auto-configuration feature.
 @SpringBootApplication is a 3-in-1 annotation that combines the functionality of @Configuration, @ComponentScan, and @EnableAutoConfiguration.
 ****************************************************************************/
-import org.springframework.web.bind.annotation.RestController;
-
-import ai.wealth.boot.initiator.model.ServerStatus;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /************************************************************************************************
 @Scope=singleton #Scopes a single bean definition to a single object instance per Spring IoC container.
@@ -38,36 +27,12 @@ as a result, simplifies the controller implementation:
 *************************************************************************************************/
 @RestController
 @SpringBootApplication
-@EnableSwagger2
 public class InitiatorApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(InitiatorApiApplication.class, args);
 	}
 	
-	
-	@Bean
-	public Docket swaggerConfiguration() {
-		return new Docket(DocumentationType.SWAGGER_2)
-				.select()
-				.paths(PathSelectors.ant("/wealth-api/*"))
-				.apis(RequestHandlerSelectors.basePackage("ai.wealth.boot.initiator"))
-				.build()
-				.apiInfo(apiInformation());
-	}
-	
-	private ApiInfo apiInformation() {
-		return new ApiInfo(
-				"initiator-api",
-				"AI Project in Capital Market and Stock Market powered by  Spring Boot",
-				"2.0",
-				"Open Source",
-				new Contact("Sushil Kumar Bhaskar","https://init-api.heroku.com","xorasysgen@yahoo.com"),
-				"Api licence",
-				"https://init-api.heroku.com",
-				Collections.emptyList());
-		
-	}
 	
 	@RequestMapping("/")
 	@ResponseBody

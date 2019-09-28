@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Getting Started by default: Serving Web Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
+	rel="stylesheet" media="screen" />
+<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+
+</head>
+<body>
+
+
+<div class="container">
+    <div class="jumbotron">
+        <img src="../static/images/spring-boot-logo.png" width="100"
+             th:src="@{images/spring-boot-logo.png}"/>
+
+	<h2 th:text="'Hello, ' + ${message} + '!'" ></h2>
+	<!-- read from controller -->
+	<p th:text="${greetings} + ' ' + ${user}">
+		<!-- read from controller -->
+	<div th:text="#{welcome.message}"></div>
+	<!-- read from property file -->
+	<div th:text="${appName}"></div>
+	<!-- read from controller -->
+
+    </div>
+</div>
+
+</body>
+</html>

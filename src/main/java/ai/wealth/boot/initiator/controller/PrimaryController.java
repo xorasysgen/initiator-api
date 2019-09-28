@@ -13,7 +13,6 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/wealth-api")
 public class PrimaryController {
 	
-	
 	@ResponseBody
 	@ApiOperation(value = "Get Server information", notes="no addition parameters required", response=ServerStatus.class)
 	@GetMapping("/info")

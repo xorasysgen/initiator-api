@@ -2,9 +2,13 @@ package ai.wealth.boot.initiator;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Description;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import ai.wealth.boot.initiator.model.ServerStatus;
 /**************************************************************************
 @SpringBootApplication = @Configuration + @ComponentScan + @EnableAutoConfiguration
@@ -13,6 +17,7 @@ import ai.wealth.boot.initiator.model.ServerStatus;
 @EnableAutoConfiguration to enable Spring Boot's auto-configuration feature.
 @SpringBootApplication is a 3-in-1 annotation that combines the functionality of @Configuration, @ComponentScan, and @EnableAutoConfiguration.
 ****************************************************************************/
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /************************************************************************************************
 @Scope=singleton #Scopes a single bean definition to a single object instance per Spring IoC container.
@@ -27,12 +32,21 @@ as a result, simplifies the controller implementation:
 *************************************************************************************************/
 @RestController
 @SpringBootApplication
+@EnableSwagger2
 public class InitiatorApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(InitiatorApiApplication.class, args);
 	}
 	
+
+	@Bean
+	@Description("Message source")
+	public ResourceBundleMessageSource messageSource() {
+	    ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+	    messageSource.setBasename("Messages");
+	    return messageSource;
+	}
 	
 	@RequestMapping("/")
 	@ResponseBody

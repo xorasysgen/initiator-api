@@ -1,37 +1,53 @@
 package ai.wealth.boot.initiator.configuration;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import ai.wealth.boot.initiator.configuration.security.model.Users;
 
 public class UserDetailsImpl implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 	
 	private String userName;
+	private String password;
+	@SuppressWarnings("unused")
+	private String fullname;
+	private boolean enabled;
+	private List<GrantedAuthority> authorities;
 	
-	public UserDetailsImpl(String userName) {
-		this.userName = userName;
+	public UserDetailsImpl(Users user) {
+		super();
+		this.userName = user.getUsername();
+		this.password = user.getPassword();
+		this.fullname = user.getFullname();
+		this.enabled = user.isEnabled();
+		this.authorities = user.getAuthorities().stream().map(p-> new SimpleGrantedAuthority(p.getAuthority())).collect(Collectors.toList());
+		//user.getAuthorities().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 	}
-	
+
+
 	public UserDetailsImpl() {
 		
 	}
-	
+
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		System.out.println("username" + userName);
-		return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+		return authorities;
 	}
+
 
 	@Override
 	public String getPassword() {
-		return userName;
+		return password;
 	}
+
 
 	@Override
 	public String getUsername() {
@@ -39,26 +55,29 @@ public class UserDetailsImpl implements UserDetails {
 	}
 
 
-
-
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
-
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
+
 
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
+
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
+
+
+	@Override
+	public boolean isEnabled() {
+		return enabled;
+	}
+	
+
 
 }

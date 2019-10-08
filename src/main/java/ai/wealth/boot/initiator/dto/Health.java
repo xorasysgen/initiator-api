@@ -1,4 +1,4 @@
-package ai.wealth.boot.initiator.model;
+package ai.wealth.boot.initiator.dto;
 
 public class Health {
 

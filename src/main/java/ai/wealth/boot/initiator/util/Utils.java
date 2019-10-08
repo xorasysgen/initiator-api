@@ -1,4 +1,4 @@
-package ai.wealth.boot.initiator.tools;
+package ai.wealth.boot.initiator.util;
 import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.ParseException;

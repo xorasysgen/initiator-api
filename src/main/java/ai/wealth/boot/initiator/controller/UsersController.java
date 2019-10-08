@@ -1,11 +1,12 @@
 package ai.wealth.boot.initiator.controller;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ai.wealth.boot.initiator.configuration.security.model.Users;
-import ai.wealth.boot.initiator.controller.service.UserService;
+import ai.wealth.boot.initiator.dto.User;
+import ai.wealth.boot.initiator.dto.UsersDetail;
+import ai.wealth.boot.initiator.service.UserService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/users-endpoint")
@@ -26,6 +30,7 @@ public class UsersController {
 	private UserService userService;
 
 	@PostMapping("/users/")
+	@ApiOperation(value = "createUser", notes="create user", response=String.class)
 	public String createUser(@RequestBody @Valid Users users) {
 		System.out.println(users);
 		Users retrivedObject=userService.createUserService(users);
@@ -33,13 +38,19 @@ public class UsersController {
 	}
 
 	@GetMapping("/users")
-	public List<Users> getAllUsers() {
-		return userService.getUsers();
+	@ApiOperation(value = "list of Users", notes="list of users", response=UsersDetail.class)
+	public UsersDetail getAllUsers() {
+		UsersDetail usersDetail=new UsersDetail();
+		List<User> user= (userService.getUsers().stream().map(p-> new User(p)).collect(Collectors.toList()));
+		usersDetail.setUser(user);
+		return usersDetail;
 	}
 
 	@GetMapping("/users/{userName}")
-	public ResponseEntity<Users> getUser(@PathVariable("userName") String userName) {
-		return ResponseEntity.ok(userService.getUserByUserName(userName));
+	@ApiOperation(value = "getUserByUserName", notes="user detail", response=User.class)
+	public User getUser(@PathVariable("userName") String userName) {
+		Optional<Users> user=userService.getUserByUserName(userName);
+		return user.map(User::new).get();
 	}
 
 	@PutMapping("/users/{userId}")

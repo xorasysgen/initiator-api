@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import ai.wealth.boot.initiator.model.ServerStatus;
+import ai.wealth.boot.initiator.dto.ServerStatus;
 /**************************************************************************
 @SpringBootApplication = @Configuration + @ComponentScan + @EnableAutoConfiguration
 @Configuration to enable Java-based configuration. 

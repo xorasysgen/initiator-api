@@ -1,38 +1,48 @@
-package ai.wealth.boot.initiator.controller.service;
+package ai.wealth.boot.initiator.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ai.wealth.boot.initiator.configuration.security.model.Authorities;
 import ai.wealth.boot.initiator.configuration.security.model.Users;
-import ai.wealth.boot.initiator.controller.repository.UserRepository;
 import ai.wealth.boot.initiator.exception.CommonException;
 import ai.wealth.boot.initiator.exception.UserAlreadyExistsException;
+import ai.wealth.boot.initiator.repository.UserRepository;
 
 @Service
 public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public Users createUserService(Users model) {
 		// always create new object and set value from dto
-		Users existedUser =userRepository.getByUsername(model.getUsername());
-		if(existedUser!=null) {
+		Optional<Users> existedUser =userRepository.getByUsername(model.getUsername());
+		if(existedUser.isPresent()) {
 			throw new UserAlreadyExistsException(model.getUsername() + " already exist!");
 		}
-		
+		System.out.println("model" + model);
 		Users user = new Users();
 		user.setEnabled(model.isEnabled());
 		user.setFullname(model.getFullname());
-		user.setPassword(model.getPassword());
+		user.setPassword(bCryptPasswordEncoder.encode(model.getPassword()));
 		user.setUsername(model.getUsername());
-		Authorities authorities = new Authorities();
-		authorities.setAuthority(model.getAuthorities().get(0).getAuthority());
-		authorities.setUsers(user);
-		user.getAuthorities().add(authorities);
+		//model.getAuthorities().forEach(authorities-> user.getAuthorities().add(authorities));
+		
+		for (Authorities authorities : model.getAuthorities()) {
+			
+			user.getAuthorities().add(authorities);
+			authorities.setUsers(user);
+			
+		}
+		 
 		Users userObject=userRepository.save(user);
 		if(userObject!=null)
 		return userObject;
@@ -50,7 +60,7 @@ public class UserService {
 		return true;
 	}
 	
-	public Users getUserByUserName(String username) {
+	public Optional<Users> getUserByUserName(String username) {
 		return userRepository.getByUsername(username);
 	}
 	public List<Users> getUsers() {
@@ -64,6 +74,14 @@ public class UserService {
 
 	public void setUserRepository(UserRepository userRepository) {
 		this.userRepository = userRepository;
+	}
+
+	public BCryptPasswordEncoder getbCryptPasswordEncoder() {
+		return bCryptPasswordEncoder;
+	}
+
+	public void setbCryptPasswordEncoder(BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
 
 }

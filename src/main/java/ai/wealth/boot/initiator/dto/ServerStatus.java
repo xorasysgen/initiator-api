@@ -1,9 +1,9 @@
-package ai.wealth.boot.initiator.model;
+package ai.wealth.boot.initiator.dto;
 
 import java.util.List;
 
 import ai.wealth.boot.initiator.health.CheckServerStatusService;
-import ai.wealth.boot.initiator.tools.Utils;
+import ai.wealth.boot.initiator.util.Utils;
 
 
 public class ServerStatus {

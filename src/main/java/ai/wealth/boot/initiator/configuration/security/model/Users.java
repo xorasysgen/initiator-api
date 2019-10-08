@@ -14,8 +14,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import ai.wealth.boot.initiator.exception.annotation.MaxUserRoleConstraint;
 
 
@@ -30,19 +28,22 @@ public class Users {
 	@NotNull
 	@Size(min=5, message="Name should have atleast 5 characters")
 	private String username;
+	
 	@NotNull
 	@Size(min=10, message="Password should have atleast 10 characters")
 	private String password;
 	private String fullname;
 	private boolean enabled;
-	// mapped by is similar to inverse="true" inverse means relationship owner //fetch=FetchType.LAZY
-	//@JsonIgnore annotation to simply ignore one of the sides of the relationship, thus breaking the chain.
-	//we will prevent the infinite recursion by ignoring the “User”
-	@JsonBackReference
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "users", fetch = FetchType.EAGER,orphanRemoval = true)
 	@NotNull
 	@MaxUserRoleConstraint // custom validation annotation
 	private List<@Valid Authorities> authorities=new ArrayList<>();
+
+	// mapped by is similar to inverse="true" inverse means relationship owner //fetch=FetchType.LAZY
+	//if you are returning JPA Entity
+	//@JsonIgnore annotation to simply ignore one of the sides of the relationship, thus breaking the chain. 
+	//we will prevent the infinite recursion by ignoring the “User”
 	
 	public Integer getUserId() {
 		return userId;

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
-import ai.wealth.boot.initiator.model.ServerStatus;
+import ai.wealth.boot.initiator.dto.ServerStatus;
 import io.swagger.annotations.ApiOperation;
 
 @RestController

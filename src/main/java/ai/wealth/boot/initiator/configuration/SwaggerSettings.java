@@ -20,7 +20,7 @@ public class SwaggerSettings {
 	
 	@Bean
 	public Docket swaggerConfiguration() {
-		return new Docket(DocumentationType.SWAGGER_2).select().paths(PathSelectors.ant("/wealth-api/*"))
+		return new Docket(DocumentationType.SWAGGER_2).select().paths(PathSelectors.ant("/api/*"))
 				.apis(RequestHandlerSelectors.basePackage("ai.wealth.boot.initiator")).build()
 				.apiInfo(apiInformation());
 	}

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -61,7 +62,13 @@ public class UserService {
 	}
 	
 	public Optional<Users> getUserByUserName(String username) {
+		try {
 		return userRepository.getByUsername(username);
+		}
+		catch(Exception e) {
+			e.getMessage();
+			throw new UsernameNotFoundException("User does ot exsist");
+		}
 	}
 	public List<Users> getUsers() {
 		return userRepository.findAll();

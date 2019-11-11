@@ -11,9 +11,12 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.envers.Audited;
+
 
 
 @Entity
+@Audited
 public class Authorities {
 	
 	@Id

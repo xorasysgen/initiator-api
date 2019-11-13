@@ -67,8 +67,9 @@ public class UsersController {
 
 	@PutMapping("/users/{userId}")
 	@ApiOperation(value = "update user By UserId", notes="Update user detail", response=User.class)
-	public String updateUser(@RequestBody Users user, @PathVariable("userId") String userId) {
-		return "user updated dummy!";
+	public String updateUser(@RequestBody Users user, @PathVariable("userId") String userName) {
+		userService.updateUserService(user, userName);
+		return "user updated successfully!";
 	}
 	
 	@DeleteMapping("/users/{userId}")

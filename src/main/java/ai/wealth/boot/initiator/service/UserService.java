@@ -61,6 +61,27 @@ public class UserService {
 		return true;
 	}
 	
+	
+	
+	public boolean updateUserService(Users user, String username) {
+		Users userFromDB=null;
+		try {
+		Optional<Users> usersData=userRepository.getByUsername(username);
+		if(usersData.isPresent()) {
+			userFromDB=usersData.get();
+			System.out.println("user full name" + userFromDB.getFullname());
+			userFromDB.setFullname(user.getFullname());
+			userRepository.save(userFromDB);
+		}
+		else
+			throw new CommonException(username + "could not Found");
+		
+		}catch(Exception ex) {
+			throw new CommonException(username + "could not found");
+		}
+		return true;
+	}
+	
 	public Optional<Users> getUserByUserName(String username) {
 		try {
 		return userRepository.getByUsername(username);

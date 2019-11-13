@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ai.wealth.boot.initiator.dto.ServerStatus;
+import io.micrometer.core.annotation.Timed;
 /**************************************************************************
 @SpringBootApplication = @Configuration + @ComponentScan + @EnableAutoConfiguration
 @Configuration to enable Java-based configuration. 
@@ -54,6 +55,14 @@ public class InitiatorApiApplication {
 	
 	@RequestMapping("/")
 	@ResponseBody
+	@Timed(
+			value = "init.server.status",
+			histogram = true,
+			percentiles = {0.95,0.99},
+			description = "server",
+			extraTags = {"Verion","1.0"}
+			
+			)
 	ServerStatus root() {
 		return new ServerStatus();
 	}

@@ -21,6 +21,7 @@ import ai.wealth.boot.initiator.dto.User;
 import ai.wealth.boot.initiator.dto.UsersDetail;
 import ai.wealth.boot.initiator.exception.CommonException;
 import ai.wealth.boot.initiator.service.UserService;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
@@ -48,6 +49,12 @@ public class UsersController {
 		return "User created with user name: " + retrivedObject.getUsername();
 	}
 
+	@Timed(
+			value = "spring.boot.users",
+			histogram = true,
+			percentiles = {0.25, 0.59},
+			extraTags = {"version", "1.0"}
+			)
 	@GetMapping("/users")
 	@ApiOperation(value = "list_of_Users", notes="list of users", response=UsersDetail.class)
 	public UsersDetail getAllUsers() {

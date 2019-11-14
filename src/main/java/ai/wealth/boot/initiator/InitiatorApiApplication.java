@@ -59,12 +59,10 @@ public class InitiatorApiApplication {
 	@RequestMapping("/")
 	@ResponseBody
 	@Timed(
-			value = "init.server.status",
+			value = "spring.boot.server",
 			histogram = true,
-			percentiles = {0.95,0.99},
-			description = "server",
-			extraTags = {"Verion","1.0"}
-			
+			percentiles = {0.95, 0.99},
+			extraTags = {"version", "1.0"}
 			)
 	ServerStatus root() {
 		return new ServerStatus();
